@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import { getCountryData } from '../helper/apiRequest';
+import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
     const [data, setData] = useState([]);
     const [wantedCountries, setwantedCountries] = useState()
-
+    const navigate = useNavigate();
 
     useEffect(() => {
         getCountryData(setData)
-        console.log(data)
     }, [])
 
     const debounce = (func, delay) => {
@@ -28,20 +28,16 @@ const Home = () => {
             return countryName.includes(searchingName)
         })
         );
-
         if (e.target.value === "") {
             setwantedCountries("")
         }
-        console.log(e.target.value)
 
-        console.log(data.filter((item, index) => {
-            let searchingName = (e.target.value).toUpperCase()
-            let countryName = item.name.toUpperCase()
-            return countryName.includes(searchingName)
-        }));
+    }, 1000);
 
-    }, 2000);
-
+    const handleClick = (countryCode) => {
+        console.log(countryCode)
+        navigate(`/details/${countryCode}`)
+    }
 
 
     return (
@@ -68,10 +64,13 @@ const Home = () => {
                     }
                     {wantedCountries ?
                         wantedCountries?.map((country, index) => (
-                            <tr key={index}>
+
+                            <tr key={index}  onClick= { () => handleClick(country.code)} >
                                 <td> {country.name} </td>
                                 <td> {country.code} </td>
                             </tr>
+
+
                         ))
                         :
                         ""
