@@ -11,8 +11,17 @@ const Home = () => {
         console.log(data)
     }, [])
 
+    const debounce = (func, delay) => {
+        let debounceTimer;
+        return function () {
+            const context = this;
+            const args = arguments;
+            clearTimeout(debounceTimer);
+            debounceTimer = setTimeout(() => func.apply(context, args), delay);
+        };
+    };
 
-    const handleChange = (e) => {
+    const handleChange = debounce(function (e) {
         setwantedCountries(data.filter((item, index) => {
             let searchingName = (e.target.value).toUpperCase()
             let countryName = item.name.toUpperCase()
@@ -20,12 +29,20 @@ const Home = () => {
         })
         );
 
+        if (e.target.value === "") {
+            setwantedCountries("")
+        }
+        console.log(e.target.value)
+
         console.log(data.filter((item, index) => {
             let searchingName = (e.target.value).toUpperCase()
             let countryName = item.name.toUpperCase()
             return countryName.includes(searchingName)
         }));
-    }
+
+    }, 2000);
+
+
 
     return (
         <div className='home' >
@@ -38,17 +55,20 @@ const Home = () => {
                     // value={wantedCountries}
                     onChange={(e) => handleChange(e)}
                 />
-                {/* <button type="submit">Search</button> */}
             </form>
             <div >
                 <table>
-                    <tr>
-                        <th>Country Name</th>
-                        <th>Code</th>
-                    </tr>
                     {wantedCountries ?
-                        wantedCountries?.map((country) => (
-                            <tr>
+                        <tr>
+                            <th>Country Name</th>
+                            <th>Code</th>
+                        </tr>
+                        :
+                        ""
+                    }
+                    {wantedCountries ?
+                        wantedCountries?.map((country, index) => (
+                            <tr key={index}>
                                 <td> {country.name} </td>
                                 <td> {country.code} </td>
                             </tr>
