@@ -15,9 +15,14 @@ h1{
   padding: 1rem;
 }
 
-input{
+.search-input{
   width: 50%;
   height: 2rem;
+  margin: auto;
+}
+
+.list{
+  margin-top: 3rem;
 }
 
 table {

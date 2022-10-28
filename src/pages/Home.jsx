@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { getCountryData } from '../helper/apiRequest';
 import { useNavigate } from 'react-router-dom';
+import Form from 'react-bootstrap/Form';
 
 const Home = () => {
     const [data, setData] = useState([]);
@@ -28,6 +29,7 @@ const Home = () => {
             return countryName.includes(searchingName)
         })
         );
+        
         if (e.target.value === "") {
             setwantedCountries("")
         }
@@ -43,15 +45,17 @@ const Home = () => {
         <div className='home' >
             <h1>Country Search App</h1>
             <form className="search" >
-                <input
-                    type="search"
-                    className="search-input"
-                    placeholder="Search a country..."
-                    // value={wantedCountries}
-                    onChange={(e) => handleChange(e)}
-                />
+                <Form.Group className="mb-3 search-input" controlId="formBasicEmail">
+                    <Form.Label>Search Bar</Form.Label>
+                    <Form.Control type="search" placeholder="Search a country..."
+                        onChange={(e) => handleChange(e)}
+                    />
+                    <Form.Text className="text-muted">
+                        enter the name of the country you want to find
+                    </Form.Text>
+                </Form.Group>
             </form>
-            <div >
+            <div className='list' >
                 <table>
                     {wantedCountries ?
                         <tr>
@@ -64,7 +68,7 @@ const Home = () => {
                     {wantedCountries ?
                         wantedCountries?.map((country, index) => (
 
-                            <tr key={index}  onClick= { () => handleClick(country.code)} >
+                            <tr key={index} onClick={() => handleClick(country.code)} >
                                 <td> {country.name} </td>
                                 <td> {country.code} </td>
                             </tr>
