@@ -40,3 +40,8 @@ td{
 tr:nth-child(even) {
   background-color: #dddddd;
 }
+
+.details{
+  margin: 10rem auto;
+  width: 60%;
+}

@@ -35,7 +35,6 @@ const Home = () => {
     }, 1000);
 
     const handleClick = (countryCode) => {
-        console.log(countryCode)
         navigate(`/details/${countryCode}`)
     }
 
